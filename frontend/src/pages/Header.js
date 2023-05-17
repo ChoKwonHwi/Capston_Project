@@ -32,6 +32,10 @@ function Header() {
               <button className="check-button ms-5 me-5">성장현황</button>
             </Link>
             
+            <Link to="/labs">
+              <button className="labs-button ms-5 me-5">labs</button>
+            </Link>
+
           </Nav>
         </Navbar.Collapse>
       </Container>
