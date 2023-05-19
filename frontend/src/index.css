@@ -112,3 +112,15 @@ form{
   text-align: center;
 
 }
+
+
+.introduce {
+  float: left;
+  width: 50%;
+}
+
+.sub-coment {
+  float: right;
+  width: 60%;
+  font-family: var(--content-fonts);
+}
