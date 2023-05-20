@@ -37,8 +37,7 @@ const Check = () => {
     <div>
       <Header></Header>
       <h1>Check</h1>
-      <p>Days: {days}</p>
-      <p>Gender: {gender}</p>
+      
       <p>Height: {height}</p>
       <p>Weight: {weight}</p>
 
@@ -46,11 +45,8 @@ const Check = () => {
       {result && (
         <div>
           <p>Result:</p>
-          {Object.keys(result).map((key) => (
-            <p key={key}>
-              {key}: {result[key]}
-            </p>
-          ))}
+          <p>Height Percent: {result.height_percent}</p>
+          <p>Weight Percent: {result.weight_percent}</p>
         </div>
       )}
     </div>
