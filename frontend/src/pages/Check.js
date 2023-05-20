@@ -17,7 +17,7 @@ const Check = () => {
   useEffect(() => {
     // Make an HTTP POST request to the Django URL with the form data
     axios
-      .post('http://localhost:8000/sndpage/api/calculate/', {
+      .post('http://127.0.0.1:8000/sndpage/api/calculate/', {
         days,
         gender,
         height,
