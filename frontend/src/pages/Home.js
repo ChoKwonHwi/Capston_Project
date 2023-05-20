@@ -27,7 +27,7 @@ const Home = () => {
     e.preventDefault();
 
     // Make an HTTP POST request to the Django endpoint
-    axios.post('http://localhost:8000/babycare/api/users/', formData)
+    axios.post('http://127.0.0.1:8000/babycare/api/users/', formData)
       .then((response) => {
         console.log('Success:', response.data);
         // Handle the response as needed
@@ -92,7 +92,7 @@ const Home = () => {
         <button type="submit" onClick={(e) => handleSubmit(e, 'predict')}>성장예측</button>
         <button type="submit" onClick={(e) => handleSubmit(e, 'check')}>성장현황</button>
       </form>
-      
+
       {/* Your remaining JSX code */}
       <section className="introduce">
         <div>
