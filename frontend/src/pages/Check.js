@@ -43,7 +43,16 @@ const Check = () => {
       <p>Weight: {weight}</p>
 
       {/* Display the result */}
-      {result && <p>Result: {result}</p>}
+      {result && (
+        <div>
+          <p>Result:</p>
+          {Object.keys(result).map((key) => (
+            <p key={key}>
+              {key}: {result[key]}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
