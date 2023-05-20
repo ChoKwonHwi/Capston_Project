@@ -23,7 +23,7 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, page) => {
     e.preventDefault();
 
     // Make an HTTP POST request to the Django endpoint
@@ -32,9 +32,14 @@ const Home = () => {
         console.log('Success:', response.data);
         // Handle the response as needed
 
-        // Navigate to the Check page with form data as query parameters
-        const queryParams = `days=${formData.days}&gender=${formData.gender}&height=${formData.height}&weight=${formData.weight}`;
-        window.location.href = `/check?${queryParams}`;
+        // Navigate to the appropriate page based on the button clicked
+        if (page === 'predict') {
+          const queryParams = `days=${formData.days}&gender=${formData.gender}&height=${formData.height}&weight=${formData.weight}`;
+          navigate(`/predict?${queryParams}`);
+        } else if (page === 'check') {
+          const queryParams = `days=${formData.days}&gender=${formData.gender}&height=${formData.height}&weight=${formData.weight}`;
+          navigate(`/check?${queryParams}`);
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -83,13 +88,11 @@ const Home = () => {
           value={formData.weight}
           onChange={handleChange}
         /><br /><br />
-        <Link to="/predict">
-        <button type="submit" style={{ marginRight: '10px' }} >성장예측</button>
-        </Link>
-        <Link to="/check">
-        <button type="submit">성장현황</button>
-        </Link>
+        
+        <button type="submit" onClick={(e) => handleSubmit(e, 'predict')}>성장예측</button>
+        <button type="submit" onClick={(e) => handleSubmit(e, 'check')}>성장현황</button>
       </form>
+      
       {/* Your remaining JSX code */}
       <section className="introduce">
         <div>
