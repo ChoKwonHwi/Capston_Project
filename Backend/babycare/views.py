@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -33,8 +31,6 @@ class UserDataView(APIView):
             if response.status_code == 200:
                 result = response.json()
                 # 결과 처리 로직 작성
-                print("아이의 신장은 상위 {0} 입니다.".format('height_percent'))
-                print("아이의 체중은 상위 {0} 입니다.".format('weight_percent'))
             else:
                 print("데이터 전송 실패")
 
