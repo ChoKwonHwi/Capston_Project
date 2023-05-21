@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
+import { HorizontalBar } from 'react-chartjs-2';
 
 import Header from "./Header";
 
@@ -33,6 +34,39 @@ const Check = () => {
       });
   }, [days, gender, height, weight]);
 
+  const chartData = {
+    labels: ['Std Height', 'Std Weight', 'Mean Height', 'Mean Weight'],
+    datasets: [
+      {
+        label: 'Comparison',
+        data: [
+          result && result.plot_std_height,
+          result && result.plot_std_weight,
+          result && result.plot_data_mean_height,
+          result && result.plot_data_mean_weight,
+        ],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+        ],
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  };
+
   return (
     <div>
       <Header></Header>
@@ -45,6 +79,7 @@ const Check = () => {
       {result && (
         <div>
           <p>Result:</p>
+          <HorizontalBar data={chartData} options={chartOptions} />
           <p>Height Percent: {result.height_percent}</p>
           <p>Weight Percent: {result.weight_percent}</p>
         </div>
