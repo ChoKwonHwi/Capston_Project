@@ -88,9 +88,10 @@ const Home = () => {
           value={formData.weight}
           onChange={handleChange}
         /><br /><br />
-        
+        <div class="centered-buttons">
         <button type="submit" onClick={(e) => handleSubmit(e, 'predict')}>성장예측</button>
         <button type="submit" onClick={(e) => handleSubmit(e, 'check')}>성장현황</button>
+        </div>
       </form>
 
       {/* Your remaining JSX code */}

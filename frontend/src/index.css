@@ -109,13 +109,23 @@ form{
   box-sizing:border-box;
   border:none;
   
-  text-align: center;
+  
 
   float: right;
-  width: 60%;
+  width: 40%;
   font-family: var(--content-fonts);
+  
 }
 
+form .centered-buttons {
+  text-align: right;
+  width: 40%;
+}
+
+form .centered-buttons button {
+  display: inline-block; /* 인라인 블록 요소로 설정하여 가운데 정렬을 적용합니다 */
+  margin: 0 5px; /* 버튼 사이의 여백을 설정합니다 */
+}
 
 .introduce {
   float: left;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
-import { HorizontalBar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 import Header from "./Header";
 
@@ -57,13 +57,9 @@ const Check = () => {
 
   const chartOptions = {
     scales: {
-      xAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
+      x: {
+        beginAtZero: true,
+      },
     },
   };
 
@@ -79,7 +75,7 @@ const Check = () => {
       {result && (
         <div>
           <p>Result:</p>
-          <HorizontalBar data={chartData} options={chartOptions} />
+          <Bar data={chartData} options={chartOptions} />
           <p>Height Percent: {result.height_percent}</p>
           <p>Weight Percent: {result.weight_percent}</p>
         </div>
