@@ -9,3 +9,4 @@ class ResultSerializer(serializers.Serializer):
     plot_data_mean_weight = serializers.FloatField()
     height = serializers.FloatField()
     weight = serializers.FloatField()
+    #gender = serializers.FloatField()

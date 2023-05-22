@@ -19,14 +19,19 @@ class CalculateResultAPIView(APIView):
         #babycare 앱에서 POST로 전달된 데이터 받아옴
         height = float(request.data.get('height'))
         weight = float(request.data.get('weight'))
-        gender = float(request.data.get('gender'))
+        gender = str(request.data.get('gender'))
         days = float(request.data.get('days'))
+        
+        if gender == '여자':
+            gender = float("0.0")
+        elif gender == '남자':
+            gender = float("1.0") #모델 사용 위해 float형으로 변경
         
         compare_df = baby_growth_df[(baby_growth_df['gender'] == gender) & (baby_growth_df['days'] == days)]
         #생후일수와 성별이 동일한 아이들의 집합 데이터 프레임 
 
         idx = 0 
-        
+
         #std 
         std_height_male = [49.9, 54.7, 58.4, 61.4, 63.9, 65.9, 67.6, 69.2, 70.6, 72.0, 73.3, 74.5, 75.7]
         std_height_female = [49.1, 53.7, 57.1, 59.8, 62.1, 64.0, 65.7, 67.3, 68.7, 70.1, 71.5, 72.8, 74.0]
@@ -80,6 +85,7 @@ class CalculateResultAPIView(APIView):
                 plot_data_mean_weight = compare_df['weight'].mean()  
             
             result1 = {
+                #'gender': gender,
                 'height_percent': height_percent,
                 'weight_percent': weight_percent,
                 'plot_std_height': plot_std_height,
