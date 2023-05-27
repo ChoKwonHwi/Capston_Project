@@ -55,6 +55,7 @@ code {
     border: none;
     background-color: transparent;
     color: var(--font-color);
+    margin-right: 40px;
 }
 
 .home-button-div {
@@ -69,12 +70,13 @@ code {
   font-family: var(--title-fonts);
   border: none;
   background-color: transparent;
+  text-decoration-line: none; /* 하이퍼링크의 밑줄 없애기 */
 }
 
-.home-button span {
-  color: blue;
-}
 
+.home-button:hover {
+  text-decoration: none; /* 호버 상태에서도 하이퍼링크의 밑줄 없애기 */
+}
 footer {
   width: 100%;
   height: 50px;
@@ -92,7 +94,7 @@ footer {
 .introduce{
   position: fixed;
   text-align: center center;
-  top: 50%;
+  top: 40%;
   width: 100%;
   font-family: var(--content-fonts);
   z-index: 1;
@@ -124,7 +126,7 @@ form .centered-buttons {
 
 form .centered-buttons button {
   display: inline-block; /* 인라인 블록 요소로 설정하여 가운데 정렬을 적용합니다 */
-  margin: 0 5px; /* 버튼 사이의 여백을 설정합니다 */
+  margin: 0 10px; /* 버튼 사이의 여백을 설정합니다 */
 }
 
 .introduce {
@@ -137,3 +139,4 @@ form .centered-buttons button {
   width: 60%;
   font-family: var(--content-fonts);
 }
+
