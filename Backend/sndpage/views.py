@@ -30,6 +30,15 @@ class CalculateResultAPIView(APIView):
         compare_df = baby_growth_df[(baby_growth_df['gender'] == gender) & (baby_growth_df['days'] == days)]
         #생후일수와 성별이 동일한 아이들의 집합 데이터 프레임 
 
+        # 입력값을 DataFrame으로 변환
+        input_data = {'days': [days], 'height': [height], 'weight': [weight], 'gender': [gender]}
+        df = pd.DataFrame(input_data)
+
+        # DataFrame을 기존 데이터에 추가
+        baby_growth_df = pd.concat([baby_growth_df, df], ignore_index=True)
+
+        baby_growth_df.to_csv(csv_file_path, index=False)
+
         idx = 0 
 
         #std 
@@ -85,7 +94,8 @@ class CalculateResultAPIView(APIView):
                 plot_data_mean_weight = compare_df['weight'].mean()  
             
             result1 = {
-                #'gender': gender,
+                'gender': gender,
+                'days': days,
                 'height_percent': height_percent,
                 'weight_percent': weight_percent,
                 'plot_std_height': plot_std_height,
@@ -104,6 +114,7 @@ class CalculateResultAPIView(APIView):
                 return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'detail': 'No data found.'}, status=status.HTTP_404_NOT_FOUND)
+        
         
 
     def get(self, request):

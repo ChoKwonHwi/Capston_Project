@@ -13,7 +13,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 class PredictResultAPIView(APIView):
     def post(self,request):
         # CSV 파일 경로
-        csv_file_path = 'sndpage/baby_growth_df.csv'
+        csv_file_path = 'fstpage/baby_growth_df.csv'
         # CSV 파일을 데이터 프레임으로 로드
         baby_growth_df = pd.read_csv(csv_file_path)        
         
@@ -26,8 +26,16 @@ class PredictResultAPIView(APIView):
         if gender == '여자':
             gender = float("0.0")
         elif gender == '남자':
-            gender = float("1.0") #모델 사용 위해 float형으로 변경     
+            gender = float("1.0") #모델 사용 위해 float형으로 변경    
+            
+        # 입력값을 DataFrame으로 변환
+        input_data = {'days': [days], 'height': [height], 'weight': [weight], 'gender': [gender]}
+        df = pd.DataFrame(input_data)
 
+        # DataFrame을 기존 데이터에 추가
+        baby_growth_df = pd.concat([baby_growth_df, df], ignore_index=True)
+
+        baby_growth_df.to_csv(csv_file_path, index=False)
         #height 예측 모델링
         # 독립 변수와 종속 변수 분리
         X = baby_growth_df[['days','gender']]
