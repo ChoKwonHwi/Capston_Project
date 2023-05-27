@@ -53,7 +53,7 @@ const Home = () => {
       <Header></Header>
       <br></br><br></br><br></br>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="days">생후일수: </label>
+        <label htmlFor="days">생후일수: &nbsp;&nbsp;</label>
         <input
           type="text"
           placeholder="생후일수를 입력하세요"
@@ -62,16 +62,18 @@ const Home = () => {
           onChange={handleChange}
         /><br /><br />
 
-        <label htmlFor="gender">성별: </label>
-        <input
-          type="text"
-          placeholder="성별을 입력하세요"
+        <label htmlFor="gender">성별: &nbsp;&nbsp;</label>
+        <select
           name="gender"
           value={formData.gender}
           onChange={handleChange}
-        /><br /><br />
+        >
+          <option value="">성별을 선택하세요</option>
+          <option value="male">남자</option>
+          <option value="female">여자</option>
+        </select><br /><br />
 
-        <label htmlFor="height">키(cm): </label>
+        <label htmlFor="height">키(cm): &nbsp;&nbsp;</label>
         <input
           type="text"
           placeholder="키를 입력하세요"
@@ -80,7 +82,7 @@ const Home = () => {
           onChange={handleChange}
         /><br /><br />
 
-        <label htmlFor="weight">몸무게(kg): </label>
+        <label htmlFor="weight">몸무게(kg): &nbsp;&nbsp;</label>
         <input
           type="text"
           placeholder="몸무게를 입력하세요"
