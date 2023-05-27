@@ -18,8 +18,7 @@ const Check = () => {
         const response = await axios.post('http://127.0.0.1:8000/sndpage/api/calculate/', {
           height: childHeight,
           weight: childWeight,
-          gender: gender, // 성별을 직접 지정해주세요 (여자/남자)
-          days: days, // 생후 일수를 직접 지정해주세요
+          
         });
 
         setAverageHeight(response.data.plot_data_mean_height);
@@ -123,11 +122,7 @@ const Check = () => {
         <div style={{ flex: 1, margin: '20px', width: '400px', height: '300px' }}>
         <h3 style={{  fontFamily: 'Jua, sans-serif' ,textAlign: 'center' }}>&lt;아이의 신장과 평균 신장 비교&gt;</h3>
         
-          {isLoading ? (
-            'Loading...'
-          ) : (
-            <Bar data={heightData} options={options} />
-          )}
+        {!isLoading && <Bar data={heightData} options={options} />}
           <h9 style={{  fontFamily: 'Helvetica, sans-serif' ,fontSize: '13px',textAlign: 'center' }}>&nbsp;&nbsp;&nbsp;&nbsp;*표준 키(cm): 2017 소아청소년 성장도표 기준</h9>
           <br></br>
           <br></br>
@@ -137,11 +132,7 @@ const Check = () => {
         <div style={{ flex: 1, margin: '20px', width: '400px', height: '300px' }}>
         <h3 style={{  fontFamily: 'Jua, sans-serif' ,textAlign: 'center' }}>&lt;아이의 몸무게와 평균 몸무게 비교&gt;</h3>
 
-          {isLoading ? (
-            'Loading...'
-          ) : (
-            <Bar data={weightData} options={weightOptions} />
-          )}
+        {!isLoading && <Bar data={weightData} options={weightOptions} />}
           <h9 style={{  fontFamily: 'Helvetica, sans-serif' ,fontSize: '13px',textAlign: 'center'  }}>&nbsp;&nbsp;&nbsp;&nbsp;*표준 몸무게(kg): 2017 소아청소년 성장도표 기준</h9>
           <br></br>
           <br></br>
