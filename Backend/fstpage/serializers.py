@@ -9,3 +9,5 @@ class PredictResultSerializer(serializers.Serializer):
     six_month_pred_weight = serializers.FloatField()
     graph_height = serializers.ListField(child=serializers.FloatField())
     graph_weight = serializers.ListField(child=serializers.FloatField())
+    gender = serializers.FloatField()
+    days = serializers.FloatField()
