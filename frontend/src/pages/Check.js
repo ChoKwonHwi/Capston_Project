@@ -7,28 +7,28 @@ import Chart from 'chart.js/auto';
 
 const Check = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [averageHeight, setAverageHeight] = useState(0);
-  const [childHeight, setChildHeight] = useState(0);
-  const [standardAverageHeight, setStandardAverageHeight] = useState(0);
-  const [averageWeight, setAverageWeight] = useState(0);
-  const [childWeight, setChildWeight] = useState(0);
-  const [standardAverageWeight, setStandardAverageWeight] = useState(0);
+  const [plot_data_mean_height, setPlotDataMeanHeight] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [plot_std_height, setPlotStdHeight] = useState(0);
+  const [plot_data_mean_weight, setPlotDataMeanWeight] = useState(0);
+  const [weight, setWeight] = useState(0);
+  const [plot_std_weight, setPlotStdWeight] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post('http://127.0.0.1:8000/sndpage/api/calculate/', {
-          height:childHeight,
-          weight:childWeight,
+          height,
+          weight,
           
         });
         //데이터 가져오기
-        setAverageHeight(response.data.plot_data_mean_height);
-        setChildHeight(response.data.height);
-        setStandardAverageHeight(response.data.plot_std_height);
-        setAverageWeight(response.data.plot_data_mean_weight);
-        setChildWeight(response.data.weight);
-        setStandardAverageWeight(response.data.plot_std_weight);
+        setPlotDataMeanHeight(response.data.plot_data_mean_height);
+        setHeight(response.data.height);
+        setPlotStdHeight(response.data.plot_std_height);
+        setPlotDataMeanWeight(response.data.plot_data_mean_weight);
+        setWeight(response.data.weight);
+        setPlotStdWeight(response.data.plot_std_weight);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -47,7 +47,7 @@ const Check = () => {
     datasets: [
       {
         label: '신장(cm)',
-        data: [childHeight, averageHeight, standardAverageHeight],
+        data: [height, plot_data_mean_height, plot_std_height],
         backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)'],
         borderWidth: 1,
       },
@@ -59,7 +59,7 @@ const Check = () => {
     datasets: [
       {
         label: '체중(kg)',
-        data: [childWeight, averageWeight, standardAverageWeight],
+        data: [weight, plot_data_mean_weight, plot_std_weight],
         backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)'],
         borderWidth: 1,
       },
@@ -129,7 +129,7 @@ const Check = () => {
         <h3 style={{  fontFamily: 'Jua, sans-serif' ,textAlign: 'center' }}>&lt;아이의 신장과 평균 신장 비교&gt;</h3>
         
         {!isLoading && <Bar data={heightData} options={options} />}
-          <h9 style={{  fontFamily: 'Helvetica, sans-serif' ,fontSize: '13px',textAlign: 'center' }}>&nbsp;&nbsp;&nbsp;&nbsp;*표준 키(cm): 2017 소아청소년 성장도표 기준</h9>
+          <h4 style={{  fontFamily: 'Helvetica, sans-serif' ,fontSize: '13px',textAlign: 'center' }}>&nbsp;&nbsp;&nbsp;&nbsp;*표준 키(cm): 2017 소아청소년 성장도표 기준</h4>
           <br></br>
           <br></br>
           <h4 style={{ fontFamily: 'Jua, sans-serif' ,textAlign: 'center' }}>아이의 신장은 상위 100.00% 입니다.</h4>
@@ -139,7 +139,7 @@ const Check = () => {
         <h3 style={{  fontFamily: 'Jua, sans-serif' ,textAlign: 'center' }}>&lt;아이의 체중과 평균 체중 비교&gt;</h3>
 
         {!isLoading && <Bar data={weightData} options={weightOptions} />}
-          <h9 style={{  fontFamily: 'Helvetica, sans-serif' ,fontSize: '13px',textAlign: 'center'  }}>&nbsp;&nbsp;&nbsp;&nbsp;*표준 몸무게(kg): 2017 소아청소년 성장도표 기준</h9>
+          <h4 style={{  fontFamily: 'Helvetica, sans-serif' ,fontSize: '13px',textAlign: 'center'  }}>&nbsp;&nbsp;&nbsp;&nbsp;*표준 몸무게(kg): 2017 소아청소년 성장도표 기준</h4>
           <br></br>
           <br></br>
           <h4 style={{ fontFamily: 'Jua, sans-serif' ,textAlign: 'center' }}>아이의 체중은 상위 75.00% 입니다.</h4>

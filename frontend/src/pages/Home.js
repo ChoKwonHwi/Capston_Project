@@ -60,6 +60,7 @@ const Home = () => {
           name="days"
           value={formData.days}
           onChange={handleChange}
+          id="days" // id 속성을 추가하였습니다
         /><br /><br />
 
         <label htmlFor="gender">성별: &nbsp;&nbsp;</label>
@@ -67,6 +68,7 @@ const Home = () => {
           name="gender"
           value={formData.gender}
           onChange={handleChange}
+          id="gender" // id 속성을 추가하였습니다
         >
           <option value="">성별을 선택하세요</option>
           <option value="male">남자</option>
@@ -80,6 +82,7 @@ const Home = () => {
           name="height"
           value={formData.height}
           onChange={handleChange}
+          id="height" // id 속성을 추가하였습니다
         /><br /><br />
 
         <label htmlFor="weight">몸무게(kg): &nbsp;&nbsp;</label>
@@ -89,6 +92,7 @@ const Home = () => {
           name="weight"
           value={formData.weight}
           onChange={handleChange}
+          id="weight" // id 속성을 추가하였습니다
         /><br /><br />
         <div class="centered-buttons">
         <button type="submit" onClick={(e) => handleSubmit(e, 'predict')}>성장예측</button>
