@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import Header from './Header';
 
+import Chart from 'chart.js/auto';
+
 const Check = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [averageHeight, setAverageHeight] = useState(0);
@@ -16,11 +18,11 @@ const Check = () => {
     const fetchData = async () => {
       try {
         const response = await axios.post('http://127.0.0.1:8000/sndpage/api/calculate/', {
-          height: childHeight,
-          weight: childWeight,
+          height:childHeight,
+          weight:childWeight,
           
         });
-
+        //데이터 가져오기
         setAverageHeight(response.data.plot_data_mean_height);
         setChildHeight(response.data.height);
         setStandardAverageHeight(response.data.plot_std_height);
@@ -35,6 +37,10 @@ const Check = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log("isLoading:", isLoading); // isLoading 값 콘솔로 출력
+  }, [isLoading]);
 
   const heightData = {
     labels: ['아이의 신장', '평균 신장', '표준 신장'],
@@ -130,7 +136,7 @@ const Check = () => {
 
         </div>
         <div style={{ flex: 1, margin: '20px', width: '400px', height: '300px' }}>
-        <h3 style={{  fontFamily: 'Jua, sans-serif' ,textAlign: 'center' }}>&lt;아이의 몸무게와 평균 몸무게 비교&gt;</h3>
+        <h3 style={{  fontFamily: 'Jua, sans-serif' ,textAlign: 'center' }}>&lt;아이의 체중과 평균 체중 비교&gt;</h3>
 
         {!isLoading && <Bar data={weightData} options={weightOptions} />}
           <h9 style={{  fontFamily: 'Helvetica, sans-serif' ,fontSize: '13px',textAlign: 'center'  }}>&nbsp;&nbsp;&nbsp;&nbsp;*표준 몸무게(kg): 2017 소아청소년 성장도표 기준</h9>

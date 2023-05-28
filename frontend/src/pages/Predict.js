@@ -10,7 +10,7 @@ const PredictChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/babycare/api/predict/', {
+        const response = await axios.post('http://127.0.0.1:8000/fstpage/api/predict/', {
           days: parseInt(days),
           gender,
           height: parseFloat(height),
