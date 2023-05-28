@@ -23,10 +23,12 @@ class PredictResultAPIView(APIView):
         gender = str(request.data.get('gender'))
         days = float(request.data.get('days'))  
         
-        if gender == '여자':
-            gender = float("0.0")
-        elif gender == '남자':
-            gender = float("1.0") #모델 사용 위해 float형으로 변경    
+        if gender == "female":
+            gender = 0.0
+        elif gender == "male":
+            gender = 1.0 
+        else:
+            print("cannot use data")#모델 사용 위해 float형으로 변경    
             
         # 입력값을 DataFrame으로 변환
         input_data = {'days': [days], 'height': [height], 'weight': [weight], 'gender': [gender]}
@@ -38,78 +40,90 @@ class PredictResultAPIView(APIView):
         baby_growth_df.to_csv(csv_file_path, index=False)
         #height 예측 모델링
         # 독립 변수와 종속 변수 분리
-        X = baby_growth_df[['days','gender']]
-        y = baby_growth_df['height']
-
-        # train/test 데이터 분리, 성별 비중 유지
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, stratify=X['gender'], random_state=42)
         
-        # linear regression 모델 학습
-        lr_height = LinearRegression()
-        lr_height.fit(X_train, y_train)
+        filtered_df = baby_growth_df[baby_growth_df['gender'] == gender]
 
-        # test 데이터로 예측
-        y_pred = lr_height.predict(X_test)
+        # 키에 대한 예측 모델 학습
+        height_X = filtered_df['days'].values.reshape(-1, 1)
+        height_y = filtered_df['height'].values
 
-        #Weight 예측 모델링
-        # 독립 변수와 종속 변수 분리
-        X_data = baby_growth_df[['days','gender','height']]
-        y_target = baby_growth_df['weight']
+        # 데이터 분할
+        # height_X_train, height_X_test, height_y_train, height_y_test = train_test_split(height_X, height_y, test_size=0.2, random_state=42)
 
-        # train/test 데이터 분리, 성별 비중 유지
-        X_train, X_test, y_train, y_test = train_test_split(X_data, y_target, test_size=0.25, stratify=X_data['gender'], random_state=42)
+        height_model = LinearRegression()
+        height_model.fit(height_X, height_y)
+
+        # 몸무게에 대한 예측 모델 학습
+        weight_X = filtered_df['days'].values.reshape(-1, 1)
+        weight_y = filtered_df['weight'].values
+
+        # 데이터 분할
+        # weight_X_train, weight_X_test, weight_y_train, weight_y_test = train_test_split(weight_X, weight_y, test_size=0.2, random_state=42)
+
+        weight_model = LinearRegression()
+        weight_model.fit(weight_X, weight_y)
         
-        lr_weight = LinearRegression()
+        prediction_range = range(1, 181)
 
-        lr_weight.fit(X_train, y_train)
-        lr_weight.score(X_test, y_test)
-    
-        one_month_pred_height = (lr_height.predict(np.array([days+30, gender]).reshape(1, -1))).tolist()
-        three_month_pred_height = (lr_height.predict(np.array([days+90, gender]).reshape(1, -1))).tolist()
-        six_month_pred_height = (lr_height.predict(np.array([days+180, gender]).reshape(1, -1))).tolist()
+        predicted_heights = []
 
-        one_month_pred_weight = (lr_weight.predict(np.array([days+30, gender, one_month_pred_height[0]]).reshape(1, -1))).tolist()
-        three_month_pred_weight = (lr_weight.predict(np.array([days+90, gender, three_month_pred_height[0]]).reshape(1, -1))).tolist()
-        six_month_pred_weight = (lr_weight.predict(np.array([days+180, gender, six_month_pred_height[0]]).reshape(1, -1))).tolist()
-        
-        one_month_pred_height = round(one_month_pred_height[0],2)
-        three_month_pred_height = round(three_month_pred_height[0],2)
-        six_month_pred_height = round(six_month_pred_height[0],2)
-        one_month_pred_weight = round(one_month_pred_weight[0],2)
-        three_month_pred_weight = round(three_month_pred_weight[0],2)
-        six_month_pred_weight = round(six_month_pred_weight[0],2)
+        # 입력한 일 수에 대한 예측값 계산
+        predicted_height = height_model.predict([[days]])
 
-        # 독립 변수와 종속 변수 분리
-        X = baby_growth_df[['days','gender']]
-        y = baby_growth_df['height']
+        if height > predicted_height:
+            slope_height = height_model.coef_[0]
+            for i in prediction_range:
+                prediction_days = days + i
+                predicted_height_sync = slope_height * prediction_days + (height_model.intercept_ + (height - predicted_height))
+                predicted_heights.append(predicted_height_sync)
+        else:
+            slope_height = height_model.coef_[0]
+            for i in prediction_range:
+                prediction_days = days + i
+                predicted_height_sync = slope_height * prediction_days + (height_model.intercept_ - (predicted_height - height))
+                predicted_heights.append(predicted_height_sync)
+                
+        predicted_heights_val = []
+        for i in range(len(predicted_heights)):
+            predicted_heights_val.append(round(predicted_heights[i][0],2))
+            
+        prediction_range = range(1, 181)
 
-        # train/test 데이터 분리, 성별 비중 유지
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, 
-                                                            stratify=X['gender'], random_state=42)
+        # 예측 결과를 저장할 리스트 초기화
+        predicted_weights = []
 
-        # for height graph
-        graph_height = [height] # 0일 뒤 키 == 현재 입력 키
-        x_height_days = list(range(1,181)) # 1일 뒤부터 180일 뒤 까지
-        for i in range(1,181):
-            graph_height.append(round(lr_height.predict([[days + i, gender]])[0],2))
-        #graph_height
+        # 입력한 일 수에 대한 예측값 계산
+        predicted_weight = weight_model.predict([[days]])
 
-        # for weight graph
-        graph_weight = [weight] # 0일 뒤 몸무게 == 현재 입력 몸무게
-        x_weight_days = list(range(1,181)) # 1일 뒤부터 180일 뒤 까지
-        for i in range(1,181):
-            graph_weight.append(round(lr_weight.predict([[days + i, gender, graph_height[i]]])[0], 2))
-        #graph_weight
-        
+
+        if weight> predicted_weight:
+            slope_weight = weight_model.coef_[0]
+            for i in prediction_range:
+                prediction_days = days + i
+                predicted_weight_sync = slope_weight * prediction_days + (weight_model.intercept_ + (weight- predicted_weight))
+                predicted_weights.append(predicted_weight_sync)
+        else:
+            slope_weight = weight_model.coef_[0]
+            for i in prediction_range:
+                prediction_days = days + i
+                predicted_weight_sync = slope_weight * prediction_days + (weight_model.intercept_ - (predicted_weight - weight))
+                predicted_weights.append(predicted_weight_sync)
+                
+        predicted_weights_val = []
+        for i in range(len(predicted_weights)):
+            predicted_weights_val.append(round(predicted_weights[i][0],2))
+            
         result = {
-            'one_month_pred_height': one_month_pred_height, #cm
-            'three_month_pred_height': three_month_pred_height, #cm
-            'six_month_pred_height': six_month_pred_height, #cm
-            'one_month_pred_weight': one_month_pred_weight, #kg
-            'three_month_pred_weight': three_month_pred_weight, #kg
-            'six_month_pred_weight': six_month_pred_weight, #kg
-            'graph_height': graph_height,
-            'graph_weight': graph_weight
+            'gender': gender,
+            'days': days,
+            'one_month_pred_height': predicted_heights_val[29], #cm
+            'three_month_pred_height': predicted_heights_val[89], #cm
+            'six_month_pred_height': predicted_heights_val[179], #cm
+            'one_month_pred_weight': predicted_weights_val[29], #kg
+            'three_month_pred_weight': predicted_weights_val[89], #kg
+            'six_month_pred_weight': predicted_weights_val[179], #kg
+            'graph_height': predicted_heights_val,
+            'graph_weight': predicted_weights_val
         }
         
         serializer = PredictResultSerializer(data=result)

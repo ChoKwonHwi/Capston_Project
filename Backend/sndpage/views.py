@@ -21,11 +21,14 @@ class CalculateResultAPIView(APIView):
         weight = float(request.data.get('weight'))
         gender = str(request.data.get('gender'))
         days = float(request.data.get('days'))
-        
-        if gender == '여자':
-            gender = float("0.0")
-        elif gender == '남자':
-            gender = float("1.0") #모델 사용 위해 float형으로 변경
+            
+        if gender == "female":
+            gender = 0.0
+        elif gender == "male":
+            gender = 1.0
+        #모델 사용 위해 float형으로 변경
+        else:
+            print("cannot use data")
         
         compare_df = baby_growth_df[(baby_growth_df['gender'] == gender) & (baby_growth_df['days'] == days)]
         #생후일수와 성별이 동일한 아이들의 집합 데이터 프레임 
@@ -93,7 +96,7 @@ class CalculateResultAPIView(APIView):
                 plot_data_mean_height = compare_df['height'].mean()
                 plot_data_mean_weight = compare_df['weight'].mean()  
             
-            result1 = {
+            result = {
                 'gender': gender,
                 'days': days,
                 'height_percent': height_percent,
@@ -106,12 +109,12 @@ class CalculateResultAPIView(APIView):
                 'weight': weight,
             }   
 
-            serializer1 = ResultSerializer(data=result1)
+            serializer = ResultSerializer(data=result)
             
-            if serializer1.is_valid():
-                return Response(serializer1.data, status=status.HTTP_200_OK)
+            if serializer.is_valid():
+                return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'detail': 'No data found.'}, status=status.HTTP_404_NOT_FOUND)
         
