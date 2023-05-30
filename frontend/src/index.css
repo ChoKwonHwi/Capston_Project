@@ -81,7 +81,7 @@ footer {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background-color: skyblue;
+  background-color: #007bff;
   color: whitesmoke;
   text-align: center;
   position: absolute;  
@@ -121,7 +121,7 @@ form{
 
 form .centered-buttons {
   text-align: right;
-  width: 40%;
+  width: 45%;
 }
 
 form .centered-buttons button {

@@ -52,7 +52,7 @@ const Home = () => {
     <div>
       <Header></Header>
       <br></br><br></br><br></br>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ fontSize: '20px' }}>
         <label htmlFor="days">생후일수: &nbsp;&nbsp;</label>
         <input
           type="text"
@@ -63,7 +63,7 @@ const Home = () => {
           id="days" // id 속성을 추가하였습니다
         /><br /><br />
 
-        <label htmlFor="gender">성별: &nbsp;&nbsp;</label>
+        <label htmlFor="gender" style={{ fontSize: '22px' }}>성별: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         <select
           name="gender"
           value={formData.gender}
@@ -75,7 +75,7 @@ const Home = () => {
           <option value="female">여자</option>
         </select><br /><br />
 
-        <label htmlFor="height">키(cm): &nbsp;&nbsp;</label>
+        <label htmlFor="height">키(cm): &nbsp;&nbsp;&nbsp;&nbsp;</label>
         <input
           type="text"
           placeholder="키를 입력하세요"
@@ -85,7 +85,7 @@ const Home = () => {
           id="height" // id 속성을 추가하였습니다
         /><br /><br />
 
-        <label htmlFor="weight">몸무게(kg): &nbsp;&nbsp;</label>
+        <label htmlFor="weight">몸무게(kg): &nbsp;</label>
         <input
           type="text"
           placeholder="몸무게를 입력하세요"
@@ -95,8 +95,8 @@ const Home = () => {
           id="weight" // id 속성을 추가하였습니다
         /><br /><br />
         <div class="centered-buttons">
-        <button type="submit" onClick={(e) => handleSubmit(e, 'predict')}>성장예측</button>
-        <button type="submit" onClick={(e) => handleSubmit(e, 'check')}>성장현황</button>
+        <button type="submit" onClick={(e) => handleSubmit(e, 'predict')} style={{ backgroundColor: '#007bff', borderRadius: '5px',  color: 'white', border: 'none' }}>성장예측</button>
+        <button type="submit" onClick={(e) => handleSubmit(e, 'check')} style={{ backgroundColor: '#007bff', borderRadius: '5px', color: 'white', border: 'none' }}>성장현황</button>
         </div>
       </form>
 
