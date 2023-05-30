@@ -3,10 +3,17 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import Header from './Header';
+import { useSearchParams } from 'react-router-dom';
 
 const Predict = () => {
+  const [searchParams] = useSearchParams();
+
+  const days = searchParams.get('days');
+  const gender = searchParams.get('gender');
+  const height = searchParams.get('height');
+  const weight = searchParams.get('weight');
+  
   const [result, setResult] = useState(null);
-  const { days, gender, height, weight } = useParams(); // useParams를 사용해서 값을 가져옴
   useEffect(() => {
     
     axios
@@ -107,11 +114,11 @@ const Predict = () => {
         <div style={{ width: '35%' }}>
           <br></br><br></br><br></br><br></br>
           {result && (
-          <>
-            <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 1개월 뒤 예상 키는 {result.one_month_pred_height}cm 입니다.</h4>
-            <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 3개월 뒤 예상 키는 {result.three_month_pred_height}cm 입니다.</h4>
-            <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 6개월 뒤 예상 키는 {result.six_month_pred_height}cm 입니다.</h4>
-          </>
+            <>
+              <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 1개월 뒤 예상 키는 {result.one_month_pred_height}cm 입니다.</h4>
+              <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 3개월 뒤 예상 키는 {result.three_month_pred_height}cm 입니다.</h4>
+              <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 6개월 뒤 예상 키는 {result.six_month_pred_height}cm 입니다.</h4>
+            </>
           )}
         </div>
       </div>
@@ -124,11 +131,11 @@ const Predict = () => {
         <div style={{ width: '35%' }}>
           <br></br><br></br><br></br><br></br>
           {result && (
-          <>
-            <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 1개월 뒤 예상 몸무게는 {result.one_month_pred_weight}kg 입니다.</h4>
-            <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 3개월 뒤 예상 몸무게는 {result.three_month_pred_weight}kg 입니다.</h4>
-            <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 6개월 뒤 예상 몸무게는 {result.six_month_pred_weight}kg 입니다.</h4>
-          </>
+            <>
+              <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 1개월 뒤 예상 몸무게는 {result.one_month_pred_weight}kg 입니다.</h4>
+              <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 3개월 뒤 예상 몸무게는 {result.three_month_pred_weight}kg 입니다.</h4>
+              <h4 style={{ fontFamily: 'Jua, sans-serif' }}>아이의 6개월 뒤 예상 몸무게는 {result.six_month_pred_weight}kg 입니다.</h4>
+            </>
           )}
         </div>
       </div>
