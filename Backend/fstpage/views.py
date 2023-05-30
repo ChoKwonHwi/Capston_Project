@@ -10,6 +10,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
+def validate_data(height, weight, days):
+    if height <= 0 or weight <= 0 or days <- 0:
+        raise ValueError("키와 몸무게, 일수는 양수이어야 합니다.")
+
 class PredictResultAPIView(APIView):
     def post(self,request):
         # CSV 파일 경로
@@ -23,12 +27,17 @@ class PredictResultAPIView(APIView):
         gender = str(request.data.get('gender'))
         days = float(request.data.get('days'))  
         
+        try:
+            validate_data(height, weight, days)
+        except ValueError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
         if gender == "female":
             gender = 0.0
         elif gender == "male":
             gender = 1.0 
         else:
-            print("cannot use data")#모델 사용 위해 float형으로 변경    
+            raise ValidationError('Invalid gender')#모델 사용 위해 float형으로 변경    
             
         # 입력값을 DataFrame으로 변환
         input_data = {'days': [days], 'height': [height], 'weight': [weight], 'gender': [gender]}
@@ -123,7 +132,9 @@ class PredictResultAPIView(APIView):
             'three_month_pred_weight': predicted_weights_val[89], #kg
             'six_month_pred_weight': predicted_weights_val[179], #kg
             'graph_height': predicted_heights_val,
-            'graph_weight': predicted_weights_val
+            'graph_weight': predicted_weights_val,
+            'height': height,
+            'weight': weight,
         }
         
         serializer = PredictResultSerializer(data=result)
