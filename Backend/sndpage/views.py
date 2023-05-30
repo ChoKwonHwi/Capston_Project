@@ -9,6 +9,10 @@ from .serializers import ResultSerializer
 import pandas as pd
 import numpy as np
 
+def validate_data(height, weight, days):
+    if height <= 0 or weight <= 0 or days <- 0:
+        raise ValueError("키와 몸무게, 일수는 양수이어야 합니다.")
+
 class CalculateResultAPIView(APIView):
     def post(self,request):
         # CSV 파일 경로
@@ -21,6 +25,11 @@ class CalculateResultAPIView(APIView):
         weight = float(request.data.get('weight'))
         gender = str(request.data.get('gender'))
         days = float(request.data.get('days'))
+        
+        try:
+            validate_data(height, weight, days)
+        except ValueError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
             
         if gender == "female":
             gender = 0.0
@@ -28,7 +37,7 @@ class CalculateResultAPIView(APIView):
             gender = 1.0
         #모델 사용 위해 float형으로 변경
         else:
-            print("cannot use data")
+            raise ValidationError('Invalid gender')
         
         compare_df = baby_growth_df[(baby_growth_df['gender'] == gender) & (baby_growth_df['days'] == days)]
         #생후일수와 성별이 동일한 아이들의 집합 데이터 프레임 
