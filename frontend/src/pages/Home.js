@@ -32,12 +32,13 @@ const Home = () => {
         console.log('Success:', response.data);
         // Handle the response as needed
 
+        // Build the query parameters string
+      const queryParams = `days=${formData.days}&gender=${formData.gender}&height=${formData.height}&weight=${formData.weight}`;
+
         // Navigate to the appropriate page based on the button clicked
         if (page === 'predict') {
-          const queryParams = `days=${formData.days}&gender=${formData.gender}&height=${formData.height}&weight=${formData.weight}`;
           navigate(`/predict?${queryParams}`);
         } else if (page === 'check') {
-          const queryParams = `days=${formData.days}&gender=${formData.gender}&height=${formData.height}&weight=${formData.weight}`;
           navigate(`/check?${queryParams}`);
         }
       })
