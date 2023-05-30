@@ -15,7 +15,7 @@ function Header() {
         <Link to="/">
           <Navbar.Brand>
 
-            <button className="home-button" style={{ textDecoration: 'none' }}>
+            <button className="home-button" >
               육아체크
             </button>
           </Navbar.Brand>

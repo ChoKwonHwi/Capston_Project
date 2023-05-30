@@ -120,35 +120,35 @@ return (
     <Header></Header>
     <div style={{ display: 'flex' }}>
       <div style={{ flex: 1, margin: '20px', width: '400px', height: '300px' }}>
-        <h3 style={{ fontFamily: 'Jua, sans-serif', textAlign: 'center' }}>&lt;아이의 신장과 평균 신장 비교&gt;</h3>
+        <h3 style={{ fontFamily: 'Jua, sans-serif', textAlign: 'center' }}>&lt;아이의 키와 평균 키 비교&gt;</h3>
 
         {result && (
           <>
             <Bar data={heightData} options={options} />
-            <h4 style={{ fontFamily: 'Helvetica, sans-serif', fontSize: '13px', textAlign: 'center' }}>
+            <h5 style={{ fontFamily: 'Helvetica, sans-serif', fontSize: '13px', textAlign: 'center' }}>
               &nbsp;&nbsp;&nbsp;&nbsp;*표준 키(cm): 2017 소아청소년 성장도표 기준
-            </h4>
+            </h5>
             <br />
             <br />
             <h4 style={{ fontFamily: 'Jua, sans-serif', textAlign: 'center' }}>
-              아이의 신장은 상위 {result.height_percent}% 입니다.
+              아이의 키는 상위 {result.height_percent}% 입니다.
             </h4>
           </>
         )}
       </div>
       <div style={{ flex: 1, margin: '20px', width: '400px', height: '300px' }}>
-        <h3 style={{ fontFamily: 'Jua, sans-serif', textAlign: 'center' }}>&lt;아이의 체중과 평균 체중 비교&gt;</h3>
+        <h3 style={{ fontFamily: 'Jua, sans-serif', textAlign: 'center' }}>&lt;아이의 몸무게와 평균 몸무게 비교&gt;</h3>
 
         {result && (
           <>
             <Bar data={weightData} options={weightOptions} />
-            <h4 style={{ fontFamily: 'Helvetica, sans-serif', fontSize: '13px', textAlign: 'center' }}>
+            <h5 style={{ fontFamily: 'Helvetica, sans-serif', fontSize: '13px', textAlign: 'center' }}>
               &nbsp;&nbsp;&nbsp;&nbsp;*표준 몸무게(kg): 2017 소아청소년 성장도표 기준
-            </h4>
+            </h5>
             <br />
             <br />
             <h4 style={{ fontFamily: 'Jua, sans-serif', textAlign: 'center' }}>
-              아이의 체중은 상위 {result.weight_percent}% 입니다.
+              아이의 몸무게는 상위 {result.weight_percent}% 입니다.
             </h4>
           </>
         )}
