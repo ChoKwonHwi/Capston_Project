@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
-import { useSearchParams } from 'react-router-dom';
-import { Link } from "react-router-dom";
 import homeImage1 from "../img/home-img.png";
 
 const Check = () => {
@@ -146,9 +144,9 @@ return (
     </button>
     
     </Link>
-    <Link to="/predict" style={{ textDecoration: 'none' }}>
-      <button className="predict-button ms-5 me-5">-&gt; GO! 성장예측</button>
-    </Link>
+    
+      <button className="predict-button ms-5 me-5" onClick={handleSubmit}>-&gt; GO! 성장예측</button>
+    
     </div>
 
     <div style={{ display: 'flex' }}>
