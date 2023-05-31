@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import Header from './Header';
+import Chart from 'chart.js/auto';
 import { useSearchParams } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import homeImage1 from "../img/home-img.png";
 
 const Predict = () => {
   const [searchParams] = useSearchParams();
@@ -13,6 +15,8 @@ const Predict = () => {
   const height = searchParams.get('height');
   const weight = searchParams.get('weight');
   
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
   const [result, setResult] = useState(null);
   useEffect(() => {
     
@@ -33,7 +37,24 @@ const Predict = () => {
       });
   }, [days, gender, height, weight]);
 
-
+  const handleSubmit = () => {
+    axios
+      .post('http://127.0.0.1:8000/sndpage/api/calculate/', {
+        days,
+        gender,
+        height,
+        weight
+      })
+      .then((response) => {
+        console.log('Success:', response.data);
+        // Handle the response as needed
+        navigate('/check'); 
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle errors
+      });
+  };
   
       const heightData = {
         labels: Array.from({ length: result?.graph_height.length }, (_, i) => i + 1),
@@ -104,8 +125,19 @@ const Predict = () => {
 
   return (
     <div>
-      <Header></Header>
-      
+      <div className="header">
+      <Link to="/" style={{ textDecoration: 'none' }}>
+      <button className="home-button" >
+          <img src={homeImage1} alt="홈 이미지" className="home-image" />
+            육아체크
+      </button>
+
+      </Link>
+      <Link to="/check" style={{ textDecoration: 'none' }}>
+        <button className="check-button ms-5 me-5">-&gt; GO!  성장현황</button>
+      </Link>
+      </div>
+            
       <div style={{ display: 'flex', justifyContent: 'space-between', margin: '60px' }}>
         <div style={{ width: '60%', marginRight: '30px' }}>
           <h3 style={{ fontFamily: 'Jua, sans-serif', textAlign: 'center' }}>&lt;예상 키 그래프&gt;</h3>
