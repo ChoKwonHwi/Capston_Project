@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
-import Header from './Header';
-import { useSearchParams } from 'react-router-dom';
 import Chart from 'chart.js/auto';
+import homeImage1 from "../img/home-img.png";
 
 const Check = () => {
   const [searchParams] = useSearchParams();
@@ -12,6 +12,8 @@ const Check = () => {
   const gender = searchParams.get('gender');
   const height = searchParams.get('height');
   const weight = searchParams.get('weight');
+
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const [result, setResult] = useState(null);
 
@@ -34,13 +36,30 @@ const Check = () => {
       });
   }, [days, gender, height, weight]);
 
-  
+  const handleSubmit = () => {
+    axios
+      .post('http://127.0.0.1:8000/fstpage/api/predict/', {
+        days,
+        gender,
+        height,
+        weight
+      })
+      .then((response) => {
+        console.log('Success:', response.data);
+        // Handle the response as needed
+        navigate('/predict'); 
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle errors
+      });
+  };
 
   const heightData = {
-    labels: ['아이의 신장', '평균 신장', '표준 신장'],
+    labels: ['아이의 키', '평균 키', '표준 키'],
     datasets: [
       {
-        label: '신장(cm)',
+        label: '키(cm)',
         data: [result && result.height, result && result.plot_data_mean_height, result && result.plot_std_height],
         backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)'],
         borderWidth: 1,
@@ -49,10 +68,10 @@ const Check = () => {
   };
 
   const weightData = {
-    labels: ['아이의 체중', '평균 체중', '표준 체중'],
+    labels: ['아이의 몸무게', '평균 몸무게', '표준 몸무게'],
     datasets: [
       {
-        label: '체중(kg)',
+        label: '몸무게(kg)',
         data: [result && result.weight, result && result.plot_data_mean_weight, result && result.plot_std_weight],
         backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)'],
         borderWidth: 1,
@@ -117,7 +136,19 @@ const Check = () => {
 
 return (
   <div>
-    <Header></Header>
+    <div className="header">
+    <Link to="/" style={{ textDecoration: 'none' }}>
+    <button className="home-button" >
+        <img src={homeImage1} alt="홈 이미지" className="home-image" />
+          육아체크
+    </button>
+    
+    </Link>
+    
+      <button className="predict-button ms-5 me-5" onClick={handleSubmit}>-&gt; GO! 성장예측</button>
+    
+    </div>
+
     <div style={{ display: 'flex' }}>
       <div style={{ flex: 1, margin: '20px', width: '400px', height: '300px' }}>
         <h3 style={{ fontFamily: 'Jua, sans-serif', textAlign: 'center' }}>&lt;아이의 키와 평균 키 비교&gt;</h3>

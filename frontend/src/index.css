@@ -44,18 +44,19 @@ code {
 }
 
 .predict-button,
-.check-button,
-.labs-button  {
-    display: block;
-    font-size: 24px;
-    text-align: center;
-    line-height: 100px;
-    padding: 14px 16px;
-    font-family: var(--content-fonts);
-    border: none;
-    background-color: transparent;
-    color: var(--font-color);
-    margin-right: 40px;
+.check-button {
+  display: block;
+  font-size: 45px;
+  text-align: center;
+  line-height: 100px;
+  padding: 14px 16px;
+  font-family: var(--title-fonts);
+  border: none;
+  background-color: transparent;
+  color: var(--font-color);
+  margin-left: auto;
+  margin-top: 30px;
+  margin-right: 60px;
 }
 
 .home-button-div {
@@ -70,7 +71,8 @@ code {
   font-family: var(--title-fonts);
   border: none;
   background-color: transparent;
-  text-decoration-line: none; /* 하이퍼링크의 밑줄 없애기 */
+  margin-left: 60px;
+  margin-top: 30px;
 }
 
 
@@ -140,3 +142,13 @@ form .centered-buttons button {
   font-family: var(--content-fonts);
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home-image {
+  width: 60px; 
+  height: auto;
+  margin-right: 5px; 
+}
