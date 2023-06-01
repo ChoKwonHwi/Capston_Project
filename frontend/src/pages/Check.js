@@ -36,25 +36,11 @@ const Check = () => {
       });
   }, [days, gender, height, weight]);
 
-  const handleSubmit = () => {
-    axios
-      .post('http://127.0.0.1:8000/fstpage/api/predict/', {
-        days,
-        gender,
-        height,
-        weight
-      })
-      .then((response) => {
-        console.log('Success:', response.data);
-        // Handle the response as needed
-        navigate('/predict'); 
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        // Handle errors
-      });
+  const handlePredictButtonClick = () => {
+    const queryParams = `days=${days}&gender=${gender}&height=${height}&weight=${weight}`;
+    navigate(`/predict?${queryParams}`);
   };
-
+  
   const heightData = {
     labels: ['아이의 키', '평균 키', '표준 키'],
     datasets: [
@@ -145,7 +131,9 @@ return (
     
     </Link>
     
-      <button className="predict-button ms-5 me-5" onClick={handleSubmit}>-&gt; GO! 성장예측</button>
+    
+      <button className="predict-button ms-5 me-5" onClick={handlePredictButtonClick}>성장예측 -&gt;</button>
+    
     
     </div>
 

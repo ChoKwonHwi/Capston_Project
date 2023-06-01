@@ -35,25 +35,10 @@ const Predict = () => {
       });
   }, [days, gender, height, weight]);
 
-  const handleSubmit = () => {
-    axios
-      .post('http://127.0.0.1:8000/sndpage/api/calculate/', {
-        days,
-        gender,
-        height,
-        weight
-      })
-      .then((response) => {
-        console.log('Success:', response.data);
-        // Handle the response as needed
-        navigate('/check'); 
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        // Handle errors
-      });
+  const handleCheckButtonClick = () => {
+    const queryParams = `days=${days}&gender=${gender}&height=${height}&weight=${weight}`;
+    navigate(`/check?${queryParams}`);
   };
-  
       const heightData = {
         labels: Array.from({ length: result?.graph_height.length }, (_, i) => i + 1),
         datasets: [
@@ -132,7 +117,8 @@ const Predict = () => {
 
       </Link>
       
-        <button className="check-button ms-5 me-5" onClick={handleSubmit} >-&gt; GO!  성장현황</button>
+        <button className="check-button ms-5 me-5" onClick={handleCheckButtonClick}>성장현황 -&gt;</button>
+      
       
       </div>
             
