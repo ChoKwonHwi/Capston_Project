@@ -8,10 +8,10 @@ import homeImage1 from "../img/home-img.png";
 const Check = () => {
   const [searchParams] = useSearchParams();
 
-  const days = searchParams.get('days');
-  const gender = searchParams.get('gender');
-  const height = searchParams.get('height');
-  const weight = searchParams.get('weight');
+  const days = searchParams.get('days')|| '';
+  const gender = searchParams.get('gender')|| '';
+  const height = searchParams.get('height')|| '';
+  const weight = searchParams.get('weight')|| '';
 
   const navigate = useNavigate(); // useNavigate 훅 사용
 
@@ -37,7 +37,7 @@ const Check = () => {
   }, [days, gender, height, weight]);
 
   const handlePredictButtonClick = () => {
-    const queryParams = `days=${days}&gender=${gender}&height=${height}&weight=${weight}`;
+    const queryParams = `days=${days || ''}&gender=${gender || ''}&height=${height || ''}&weight=${weight || ''}`;
     navigate(`/predict?${queryParams}`);
   };
   
